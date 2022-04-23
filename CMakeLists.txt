@@ -26,7 +26,7 @@ if(WIN32)
 endif()
 if(UNIX)
   message(STATUS "OS_detect=UNIX")
-  target_link_libraries(main -pthread)
+  target_link_libraries(ChatBot -pthread)
 endif()
 
 get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
