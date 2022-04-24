@@ -36,10 +36,10 @@ jobs:
 
       - name: generate Docs/Coverage
         run: |
-          mkdir Docs
-          mkdir Docs/Coverage
-          mkdir Docs/Coverage/Html
-          mkdir Docs/Coverage/Sonarqube
+          mkdir -p Docs
+          mkdir -p Docs/Coverage
+          mkdir -p Docs/Coverage/Html
+          mkdir -p Docs/Coverage/Sonarqube
       - run: >
           gcovr -r . -f src --html-details Docs/Coverage/Html/coverage.html 
           --sonarqube Docs/Coverage/Sonarqube/coverage.xml
