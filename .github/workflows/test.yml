@@ -35,3 +35,15 @@ jobs:
           
       - name: test
         run: ctest
+
+      - name: coverage
+        run: |
+          total="$(gcovr -r . -f src | grep TOTAL | grep -o '[^ ]\+$' | grep -o '[^%]\+') "
+          if (( $(echo "$total > 80" |bc -l) )); then
+            #curl "https://${GIT_USER}:${ADIKA_GITHUB_TOKEN}@api.github.com/repos/${ORG_NAME}/${PROJECT_NAME}/statuses/${COMMIT_SHA}" -d "{\"state\": \"${STATE}\",\"target_url\": \"https://github.com/${ORG_NAME}/${PROJECT_NAME}/pull/${PULL_NUMBER}/checks?check_run_id=${RUN_ID}\",\"description\": \"${total}%\",\"context\": \"code cov\"}"
+            echo "coverage: OK $total"
+          else
+            curl "https://${GIT_USER}:${ADIKA_GITHUB_TOKEN}@api.github.com/repos/${ORG_NAME}/${PROJECT_NAME}/statuses/${COMMIT_SHA}" -d "{\"state\": \"${STATE}\",\"target_url\": \"https://github.com/${ORG_NAME}/${PROJECT_NAME}/pull/${PULL_NUMBER}/checks?check_run_id=${RUN_ID}\",\"description\": \"not enough coverage ${total}%\",\"context\": \"code cov\"}"
+            echo "coverage: NOK $total"
+            exit 1
+          fi
