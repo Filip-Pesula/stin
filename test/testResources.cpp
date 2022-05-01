@@ -12,8 +12,9 @@ BOOST_AUTO_TEST_CASE(test_ReadResource_Nominal){
     STIN_Bot::Resources res({ {resFile, STIN_Bot::HtmlType::plain, p} });
     BOOST_CHECK_EQUAL(res.files.size(),1);
     std::u32string expected = U"test Line1: Text Line\ntest Line2: Test Line ó +ěščřžýá";
-    BOOST_CHECK(res.files[resFile] == expected);
     BOOST_CHECK_EQUAL(res.exists(resFile),true);
+    BOOST_CHECK(res.files[resFile].find(U"test Line1: Text Line") != std::u32string::npos);
+    BOOST_CHECK(res.files[resFile].find(U"test Line2: Test Line ó +ěščřžýá") != std::u32string::npos);
     Logger::log("result:",res.files[resFile]);
     Logger::log("expected:", expected);
 }
