@@ -14,7 +14,8 @@ BOOST_AUTO_TEST_CASE(test_ReadResource_Nominal){
     std::u32string expected = U"test Line1: Text Line\ntest Line2: Test Line ó +ěščřžýá";
     BOOST_CHECK(res.files[resFile] == expected);
     BOOST_CHECK_EQUAL(res.exists(resFile),true);
-    Logger::log(res.files[resFile]);
+    Logger::log("result:",res.files[resFile]);
+    Logger::log("expected:", expected);
 }
 
 BOOST_AUTO_TEST_CASE(test_Exist_Nominal){
