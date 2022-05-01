@@ -34,7 +34,7 @@ jobs:
           cmake --build build/.dump
           
       - name: test
-        run: ctest
+        run: ctest --output-on-failure
 
       - name: coverage
         run: |
