@@ -1,0 +1,26 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	padding: 0;
+	margin: 0;
+}
+.wrapper{
+	background-color: #544F63;
+	height: 100vh;
+	width: 40vw;
+	padding-left: 30vw;
+	padding-right: 30vw;
+	text-align: center;
+}
+.inputField{
+	padding-top: 40vh;
+	vertical-align: middle;
+}
+.messagewrapper{
+	overflow: hidden;
+}
+#messageList{
+	text-align: left;
+}
