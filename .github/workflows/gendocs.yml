@@ -59,7 +59,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: build
         run: |
-          cmake -B build/.dump -S .
+          cmake -B build/.dump -S . -DCMAKE_BUILD_TYPE=Release
           cmake --build build/.dump
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"

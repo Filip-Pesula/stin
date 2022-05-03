@@ -30,7 +30,7 @@ jobs:
         
       - name: build
         run: |
-          cmake -B build/.dump -S .
+          cmake -B build/.dump -S . -DCMAKE_BUILD_TYPE=Debug
           cmake --build build/.dump
           
       - name: test
