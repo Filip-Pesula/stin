@@ -1,6 +1,4 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
@@ -11,19 +9,43 @@
                 "-B",
                 "'build/.dump'",
                 "-S",
-                ".",         
-                //"-std=gnu++20",
+                ".",
                 "-G",
                 "MinGW Makefiles",
+                "-DCMAKE_BUILD_TYPE=Debug",
                 ";",
                 "cmake",
-                "--build",  
+                "--build",
                 "build/.dump",
+                "--parallel",
                 ";",
                 "ctest",
-
-
-                
+                "--output-on-failure"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Release",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "'build/.dump'",
+                "-S",
+                ".",
+                "-G",
+                "MinGW Makefiles",
+                "-DCMAKE_BUILD_TYPE=Release",
+                ";",
+                "cmake",
+                "--build",
+                "build/.dump",
+                "--parallel",
+                ";"
             ],
             "problemMatcher": [],
             "group": {
@@ -34,12 +56,9 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "./build/release/bin/main",
+            "command": "./build/Release/ChatBot 0.0.0.0 80",
             "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
+            "group": "none"
+        },
     ]
 }

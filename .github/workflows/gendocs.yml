@@ -36,10 +36,10 @@ jobs:
 
       - name: generate Docs/Coverage
         run: |
-          mkdir Docs
-          mkdir Docs/Coverage
-          mkdir Docs/Coverage/Html
-          mkdir Docs/Coverage/Sonarqube
+          mkdir -p Docs
+          mkdir -p Docs/Coverage
+          mkdir -p Docs/Coverage/Html
+          mkdir -p Docs/Coverage/Sonarqube
       - run: >
           gcovr -r . -f src --html-details Docs/Coverage/Html/coverage.html 
           --sonarqube Docs/Coverage/Sonarqube/coverage.xml
@@ -53,4 +53,22 @@ jobs:
           git add -f Docs/
           git commit -am "Automated report"
           git push
+  build-Release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        run: |
+          cmake -B build/.dump -S . -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/.dump
+      - name: automatic release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Release Build"
+          files: |
+            ./build/Release/*
+            LICENSE.txt
 
