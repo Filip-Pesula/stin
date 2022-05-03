@@ -26,7 +26,8 @@ setUp(
     std::string &message,
     boost::asio::ip::address &adress,
     unsigned short &port, 
-    std::filesystem::path &root
+    std::filesystem::path &root,
+    std::filesystem::path &cash
 ){
     adress = boost::asio::ip::make_address("0.0.0.0");
     port = 80; 
@@ -74,6 +75,22 @@ setUp(
             }
             root = validate;
         }
+        else if(argPair.first == "-cash"){
+            if(argPair.second == ""){
+                message = "missing directory after -cash";
+                return true;
+            }
+            std::filesystem::path validate = argPair.second;
+            if(!std::filesystem::exists(validate)){
+                message = "given direcory after -cash is invalid:\n'" + validate.string() + "' Doesn't exist";
+                return true;
+            }
+            else if(!std::filesystem::is_directory(validate)){
+                message = "given direcory after -cash is invalid:\nIs not a directory";
+                return true;
+            }
+            cash = validate;
+        }
         else if(argPair.first == "-h"){
             message = 
 "Usage\n\
@@ -82,6 +99,7 @@ Options\n\
 -adr <ip_adress>     = Specifies serverAdress IPV4 '0.0.0.0' | IPV6 '0::0'\n\
 -port <port>         = Specifies listening port\n\
 -root <root_folder>  = Specifies root directory to reference when looking for files\n\
+-cash <cash_folder>  = Specifies cash directory to reference when cashing and restoring files\n\
 ";
             return true;
         }

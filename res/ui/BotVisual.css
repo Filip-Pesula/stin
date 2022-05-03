@@ -15,11 +15,12 @@ body{
 	text-align: center;
 }
 .inputField{
-	padding-top: 40vh;
+	padding-top: 10pt;
 	vertical-align: middle;
 }
 .messagewrapper{
-	overflow: hidden;
+	overflow-y: scroll;
+	height: 50vh;
 }
 #messageList{
 	text-align: left;

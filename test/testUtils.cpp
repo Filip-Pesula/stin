@@ -23,6 +23,5 @@ BOOST_AUTO_TEST_CASE(testgen404){
 
 BOOST_AUTO_TEST_CASE(test_now){
     std::cout<<STIN_Bot::now();
-    std::time_t now = std::time(0);
     BOOST_CHECK_EQUAL(STIN_Bot::now(), std::time(0));
 }

@@ -30,11 +30,12 @@ int main(int argc, char* argv[])
         net::ip::address address;
         unsigned short port;
         std::filesystem::path root;
+        std::filesystem::path cash;
         // Check command line arguments.
         {
             std::string message; 
             auto PairList = GetArgsPairList(argc,argv);
-            bool error = setUp(PairList,message,address,port,root);
+            bool error = setUp(PairList,message,address,port,root,cash);
             if(error){
                 std::cout << message;
                 return EXIT_FAILURE;

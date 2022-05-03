@@ -15,3 +15,6 @@ void Log(std::u32string_view obj){
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> utfConverter;
     std::cout << utfConverter.to_bytes(strO);
 }
+void Log(boost::gregorian::date obj){
+    std::cout << boost::gregorian::to_iso_extended_string(obj);
+}

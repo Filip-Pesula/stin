@@ -20,5 +20,6 @@ setUp(
     std::string &message,
     boost::asio::ip::address &adress,
     unsigned short &port, 
-    std::filesystem::path &root
+    std::filesystem::path &root,
+    std::filesystem::path &cash
 );

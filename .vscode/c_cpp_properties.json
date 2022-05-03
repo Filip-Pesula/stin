@@ -8,7 +8,6 @@
                 "${workspaceFolder}/lib/**",
                 "${workspaceFolder}/lib/boost_1_78_0/**",
                 "${workspaceFolder}/src",
-                "${workspaceFolder}/lib/boost_1_78_0",
                 "${workspaceFolder}/lib/boost_1_78_0"
             ],
             "defines": [

@@ -53,4 +53,22 @@ jobs:
           git add -f Docs/
           git commit -am "Automated report"
           git push
+  build-Release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        run: |
+          cmake -B build/.dump -S .
+          cmake --build build/.dump
+      - name: automatic release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Release Build"
+          files: |
+            ./build/Release/*
+            LICENSE.txt
 

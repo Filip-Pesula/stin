@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <boost/date_time/gregorian/gregorian.hpp>
 
 template <typename _T>
 void Log(_T obj){
@@ -8,6 +9,7 @@ void Log(_T obj){
 }
 void Log(std::u32string obj);
 void Log(std::u32string_view obj);
+void Log(boost::gregorian::date obj);
 
 class Logger{
 public: 
