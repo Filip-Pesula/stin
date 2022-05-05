@@ -2,6 +2,8 @@
 #include <fstream>
 #include <Logger.h>
 #include <WebReader.h>
+#include <chrono>
+#include <thread>
 
 namespace STIN_Bot{
 
@@ -111,12 +113,16 @@ bool MoneyCash::getCourseTillToday(){
     boost::gregorian::date lookUpDate = fdate;
     boost::posix_time::ptime timeLocal = boost::posix_time::second_clock::local_time();
     boost::gregorian::date today = timeLocal.date();
+
     while(lookUpDate < today){
         if(!containsDate(lookUpDate)){
             Logger::log("notContained",lookUpDate);
             Money<> m = getCuseforDate(lookUpDate);
             Logger::log("price:",m.to_string<char>(","));
-            contents.push_back(std::pair<boost::gregorian::date,Money<>>(lookUpDate,m ) );
+
+        }
+        else{
+            Logger::log("contained",lookUpDate);
         }
         lookUpDate+= boost::gregorian::date_duration (1);
     }
@@ -132,19 +138,20 @@ Money<> MoneyCash::latest(){
         Logger::log("Could not Read Money!!!");
         return Money(0);
     }
-    return contents[contents.size()-1].second;
+    Money<> m  = contents[contents.size()-1].second;
+    if(m.getCents() == 0 && contents.size()>1){
+        m = contents[contents.size()-2].second;
+    }
+    return m;
 }
 
-std::vector<Money<>> MoneyCash::history(){
-    std::vector<Money<>> money;
+std::vector<std::pair<boost::gregorian::date,Money<>>> MoneyCash::history(){
+    std::vector<std::pair<boost::gregorian::date,Money<>>> money;
     if(!getCourseTillToday() || contents.empty()){
         Logger::log("Could not Read Money!!!");
         return money;
     }
-    for(std::pair<boost::gregorian::date,Money<>> pair : contents){
-        money.push_back(pair.second);
-    }
-    return money;
+    return contents;
 }
 
 }
