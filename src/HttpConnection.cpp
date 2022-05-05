@@ -3,10 +3,12 @@
 #include <codecvt>
 #include <locale>
 #include <Logger.h>
+#include <resources/Resources.h>
 namespace STIN_Bot{
-    http_connection::http_connection(tcp::socket socket,const Resources &res): 
+    http_connection::http_connection(tcp::socket socket,Res &res, Bot &bot): 
         socket_(std::move(socket)),
-        res(res)
+        res(res),
+        bot(bot)
     {
     }
     void http_connection::start()
@@ -44,12 +46,16 @@ namespace STIN_Bot{
             response_.set(http::field::server, "Beast");
             create_response();
             break;
-        case http::verb::post:
+        case http::verb::post:{
             Logger::log("PostReques");
             response_.result(http::status::ok);
             response_.set(http::field::content_type, "text/plain");
-            beast::ostream(response_.body()) << "Bot is Sleeping, come back next time";
+            std::string messageString = beast::buffers_to_string(request_.body().data());
+            std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> utfConverter;
+            std::u32string response = bot.processMessage(utfConverter.from_bytes(messageString));
+            beast::ostream(response_.body()) << utfConverter.to_bytes(response);
             break;
+        }
         default:
             // We return responses indicating an error if
             // we do not recognize the request method.
@@ -66,8 +72,9 @@ namespace STIN_Bot{
     }
     void http_connection::create_response()
     {
-        if( res.exists(request_.target().to_string() )){
-            std::u32string content = res.files.at(request_.target().to_string());
+        Resources* httpRes = dynamic_cast<Resources*>(res[Resources::name]);
+        if( httpRes->exists(request_.target().to_string() )){
+            std::u32string content = httpRes->files.at(request_.target().to_string());
             std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> utfConverter;
             beast::ostream(response_.body()) << utfConverter.to_bytes(content);
         }

@@ -15,13 +15,32 @@ body{
 	text-align: center;
 }
 .inputField{
+	width: 40vw;
 	padding-top: 10pt;
 	vertical-align: middle;
 }
 .messagewrapper{
-	overflow-y: scroll;
+	padding-top: 20vh;
 	height: 50vh;
+}
+.listWrapper{
+	background-color: #c1ccd1;
+	overflow-y: scroll;
+	height: 100%;
+	width: 100%;
 }
 #messageList{
 	text-align: left;
+}
+.req{
+	text-align: right;
+	background-color: rosybrown;
+	margin-top: 2px;
+	padding: 4px 0px 4px 0px;
+}
+.res{
+	text-align: left;
+	background-color: blue;
+	margin-top: 2px;
+	padding: 4px 0px 4px 0px;
 }

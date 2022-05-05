@@ -6,8 +6,8 @@
 #include <utility>
 #include <cstdint>
 #include <filesystem>
-#include <ResourceData.h>
-
+#include "ResourceData.h"
+#include "Resoruce.h"
 
 namespace STIN_Bot{
 
@@ -18,11 +18,15 @@ namespace STIN_Bot{
     };
 
 
-    class Resources{
+    class Resources : public Resource{
         std::map<std::string,ResourceData> paths;
     public:
+        static const std::string name;
         std::map<std::string,std::u32string> files;
         bool exists(const std::string &name) const;
         Resources(std::vector<ResourceData> fileFetch);
+        Resources(const Resources&) = delete;
+        Resources& operator=(const Resources&) = delete; 
+        std::string getName() override;
     };
 }

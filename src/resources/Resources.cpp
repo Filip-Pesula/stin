@@ -5,7 +5,9 @@
 #include <Logger.h>
 #include <filesystem>
 namespace STIN_Bot{
-    Resources::Resources(std::vector<ResourceData> fileFetch){
+    const std::string Resources::name = "HtmlResource";
+    Resources::Resources(std::vector<ResourceData> fileFetch)
+    {
         Logger::log(fileFetch.size());
         for(ResourceData file: fileFetch){
             std::ifstream stream(file.path, std::ifstream::in);
@@ -23,5 +25,8 @@ namespace STIN_Bot{
     }
     bool Resources::exists(const std::string &name) const{
         return files.contains(name);
+    }
+    std::string Resources::getName(){
+        return Resources::name;
     }
 }

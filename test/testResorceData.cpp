@@ -1,6 +1,6 @@
 #define BOOST_TEST_MODULE testResourceData
 #include <boost/test/included/unit_test.hpp>
-#include <ResourceData.h>
+#include <resources/ResourceData.h>
 
 
 BOOST_AUTO_TEST_CASE(test_getTypeTesxt){

@@ -9,7 +9,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <Resources.h>
+#include <resources/Res.h>
+#include <Bot.h>
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -20,7 +21,7 @@ namespace STIN_Bot {
     class http_connection : public std::enable_shared_from_this<http_connection>
     {
     public:
-        http_connection(tcp::socket socket,const Resources &res);
+        http_connection(tcp::socket socket,Res &res, Bot &bot);
         
 
         // Initiate the asynchronous operations associated with the connection.
@@ -30,7 +31,9 @@ namespace STIN_Bot {
         // The socket for the currently connected client.
         tcp::socket socket_;
         //resources
-        const Resources &res;
+        Res &res;
+
+        Bot &bot;
 
         // The buffer for performing reads.
         beast::flat_buffer buffer_{ 8192 };

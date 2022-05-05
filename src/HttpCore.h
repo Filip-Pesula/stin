@@ -10,12 +10,22 @@
 #include <memory>
 #include <string>
 #include <HttpConnection.h>
-#include <Resources.h>
+#include <resources/Res.h>
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 namespace STIN_Bot {
-	void http_server(tcp::acceptor& acceptor, tcp::socket& socket,const Resources &res);
+	class HTTPCore{
+    protected:
+        tcp::socket& socket;
+        tcp::acceptor& acceptor;
+        Bot bot;
+        Res res;
+    public:
+        void setup();
+        HTTPCore(tcp::acceptor& acceptor, tcp::socket& socket);
+    };
+	void http_server(tcp::acceptor& acceptor, tcp::socket& socket,Res &res,Bot& bot);
 }
