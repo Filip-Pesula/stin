@@ -40,7 +40,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RELEASE_OUT_DIRECORY})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 #Find all Cpp Files
-file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 list(APPEND SOURCES ${CMAKE_SOURCE_DIR}/lib/JsonSrc.cpp)
 #Log Files
 foreach(source  ${SOURCES})

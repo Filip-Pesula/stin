@@ -13,7 +13,7 @@ public:
             }
         );
     }
-    std::u32string getResponse() const override {
+    std::u32string getResponse(Res& res) const override {
         return std::u32string(U"time is: now");
     }
 };
@@ -26,6 +26,7 @@ public:
 */
 struct TestFixture{
     TestFixture(){}
+    Res res(std::vector<Resource&>());
     TestableRequest request;
 };
 

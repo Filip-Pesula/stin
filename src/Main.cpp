@@ -11,7 +11,9 @@
 #include <utils.h>
 #include "HttpCore.h"
 #include "utils.h"
-#include <Resources.h>
+#include <resources/Resources.h>
+#include <resources/Res.h>
+#include <resources/MoneyCash.h>
 #include <Logger.h>
 #include <filesystem>
 #include <ReadArgs.h>
@@ -42,20 +44,38 @@ int main(int argc, char* argv[])
             }
         }
         
-        STIN_Bot::Resources res( 
-            { 
+        std::unique_ptr<STIN_Bot::Resources> htmlRes = std::make_unique<STIN_Bot::Resources>( 
+            std::vector<STIN_Bot::ResourceData>{ 
                 { std::string("/"), STIN_Bot::HtmlType::html, root/"ui"/"index.html" },
                 { std::string("/BotClient.js"),STIN_Bot::HtmlType::js, root/ "ui" / "BotClient.js"},
                 { std::string("/BotVisual.css"),STIN_Bot::HtmlType::css, root/ "ui" / "BotVisual.css"}
             }
         );
+        std::unique_ptr<STIN_Bot::MoneyCash> euroCash = std::make_unique<STIN_Bot::MoneyCash>(cash/"eurocas.json");
+
+        std::vector<std::unique_ptr<Resource>> resources;
+        resources.push_back(std::move(htmlRes));
+        resources.push_back(std::move(euroCash));
+        STIN_Bot::Res res(std::move(resources));
+        std::vector<std::unique_ptr<STIN_Bot::Request>> requests;
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetNameRequestCZ>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetNameRequestEN>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetTimeRequestCZ>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetTimeRequestEN>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroRequestCZ>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroRequestEN>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetHelpRequestCZ>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetHelpRequestEN>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroHystoryRequestEN>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroHystoryRequestCZ>()));
+        STIN_Bot::Bot bot(std::move(requests),res);
 
         net::io_context ioc{ 1 };
 
         tcp::acceptor acceptor{ ioc, {address, port} };
         tcp::socket socket{ ioc };
         Logger::log("Server: START");
-        STIN_Bot::http_server(acceptor, socket,res);
+        STIN_Bot::http_server(acceptor, socket,res,bot);
 
         ioc.run();
     }

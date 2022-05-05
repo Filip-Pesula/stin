@@ -34,4 +34,5 @@ BOOST_AUTO_TEST_CASE(test_Money_throws){
     BOOST_CHECK_THROW(Money<>::getFromString("15,2a0"),std::invalid_argument);
     BOOST_CHECK_THROW(Money<>::getFromString(""),std::invalid_argument);
     BOOST_CHECK_THROW(Money<>::getFromString("15.2a0"),std::invalid_argument);
+    BOOST_CHECK_THROW(Money<>::getFromString("1q.2q0"),std::invalid_argument);
 }

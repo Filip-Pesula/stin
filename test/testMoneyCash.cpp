@@ -1,8 +1,10 @@
 #define BOOST_TEST_MODULE DummyTest
 #include <boost/test/included/unit_test.hpp>
 
-#include <MoneyCash.h>
+#include <resources/MoneyCash.h>
 #include <Logger.h>
+
+using namespace STIN_Bot;
 
 class MoneyCash_mock : public MoneyCash{
 public:
@@ -39,7 +41,7 @@ public:
 struct TestFixture{
     MoneyCash_mock moneyCash_mock;
     TestFixture():
-        moneyCash_mock(std::filesystem::path("cash"))
+        moneyCash_mock(std::filesystem::path("./build/Test/testMoneycash.json"))
     {
     }
 };
@@ -53,6 +55,7 @@ BOOST_FIXTURE_TEST_CASE( test_ReadJson_Nominal, TestFixture )
     {\"date\":\"2022-5-3\",\"cents\":2018},\
     {\"date\":\"2022-5-4\",\"cents\":2000}\
 ]";
+    moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>> ());
     bool exec = moneyCash_mock.exposeRead_string(JSON_STR);
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     BOOST_CHECK_EQUAL(exec,false);
@@ -73,6 +76,7 @@ BOOST_FIXTURE_TEST_CASE( test_ReadJson_Nominal_Read_WRite, TestFixture )
 {\"date\":\"2022-05-03\",\"cents\":2018},\
 {\"date\":\"2022-05-04\",\"cents\":2000}\
 ]";
+    moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>> ());
     bool exec = moneyCash_mock.exposeRead_string(JSON_STR);
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     std::string write = moneyCash_mock.exposeWrite_string();
@@ -90,6 +94,7 @@ BOOST_FIXTURE_TEST_CASE( test_ReadJson_SyntaxError, TestFixture )
 {\"date\":\"2022-05-03\",\"cents\":2018},\
 {\"date\":\"2022-05-04\",\"cents\":2000}\
 ]";
+    moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>> ());
     bool exec = moneyCash_mock.exposeRead_string(JSON_STR);
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     BOOST_CHECK_EQUAL(exec,true);
@@ -102,6 +107,7 @@ BOOST_FIXTURE_TEST_CASE( test_ReadJson_NotArray, TestFixture )
 "\
 {\"date\":\"2022-05-01\",\"cents\":2014}\
 ";
+    moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>> ());
     bool exec = moneyCash_mock.exposeRead_string(JSON_STR);
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     BOOST_CHECK_EQUAL(exec,true);
@@ -128,6 +134,7 @@ BOOST_FIXTURE_TEST_CASE( test_Contains, TestFixture )
     {\"date\":\"2022-5-3\",\"cents\":2018},\
     {\"date\":\"2022-5-4\",\"cents\":2000}\
 ]";
+    moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>> ());
     bool exec = moneyCash_mock.exposeRead_string(JSON_STR);
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     BOOST_CHECK_EQUAL(exec,false);
@@ -139,9 +146,12 @@ BOOST_FIXTURE_TEST_CASE( test_Contains, TestFixture )
 BOOST_FIXTURE_TEST_CASE( test_Get_Course_Till_Today, TestFixture )
 {
     moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>>());
-    std::vector<std::pair<boost::gregorian::date,Money<>>> contents = moneyCash_mock.exposeGetCuseTillToday();
-    BOOST_CHECK(contents.size()>1);
-    BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(fdate),true);
+    moneyCash_mock.exposeGetCuseTillToday();
+    Logger::log("read Contents Till Today");
+    std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
+    
+    BOOST_WARN(contents.size()>1);
+    BOOST_WARN_EQUAL(moneyCash_mock.containsDate(fdate),true);
     Logger::log(contents.size());
 }
 
