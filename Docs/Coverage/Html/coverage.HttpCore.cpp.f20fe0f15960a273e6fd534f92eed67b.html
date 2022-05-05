@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th scope="row">Date:</th>
-      <td>2022-05-04 23:55:54</td>
+      <td>2022-05-05 10:29:00</td>
     </tr>
   </table>
 </div>
@@ -75,24 +75,24 @@
     </tr>
     <tr>
       <td>
-        <a href="#l4">STIN_Bot::http_server(boost::asio::basic_socket_acceptor&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, boost::asio::basic_stream_socket&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, STIN_Bot::Resources const&amp;)</a>
+        <a href="#l5">STIN_Bot::http_server(boost::asio::basic_socket_acceptor&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, boost::asio::basic_stream_socket&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, STIN_Bot::Res&amp;, STIN_Bot::Bot&amp;)</a>
       </td>
       <td>
-        <a href="#l4">4</a>
+        <a href="#l5">5</a>
       </td>
       <td>
-        <a href="#l4"> not called</a>
+        <a href="#l5"> not called</a>
       </td>
     </tr>
     <tr>
       <td>
-        <a href="#l7">STIN_Bot::http_server(boost::asio::basic_socket_acceptor&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, boost::asio::basic_stream_socket&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, STIN_Bot::Resources const&amp;)::{lambda(boost::system::error_code)#1}::operator()(boost::system::error_code) const</a>
+        <a href="#l8">STIN_Bot::http_server(boost::asio::basic_socket_acceptor&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, boost::asio::basic_stream_socket&lt;boost::asio::ip::tcp, boost::asio::any_io_executor&gt;&amp;, STIN_Bot::Res&amp;, STIN_Bot::Bot&amp;)::{lambda(boost::system::error_code)#1}::operator()(boost::system::error_code) const</a>
       </td>
       <td>
-        <a href="#l7">7</a>
+        <a href="#l8">8</a>
       </td>
       <td>
-        <a href="#l7"> not called</a>
+        <a href="#l8"> not called</a>
       </td>
     </tr>
   </table>
@@ -138,12 +138,20 @@
       <td class="lineno"><a id="l4" href="#l4">4</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">http_server</span><span class="p">(</span><span class="n">tcp</span><span class="o">::</span><span class="n">acceptor</span><span class="o">&amp;</span><span class="w"> </span><span class="n">acceptor</span><span class="p">,</span><span class="w"> </span><span class="n">tcp</span><span class="o">::</span><span class="n">socket</span><span class="o">&amp;</span><span class="w"> </span><span class="n">socket</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="n">Resources</span><span class="w"> </span><span class="o">&amp;</span><span class="n">res</span><span class="p">)</span><span class="w"></span></td>
+      <td class="linecount "></td>
+      <td class="src "><span class="w">    </span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l5" href="#l5">5</a></td>
+      <td class="linebranch">
+      </td>
+      <td class="linecount uncoveredLine">&cross;</td>
+      <td class="src uncoveredLine"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">http_server</span><span class="p">(</span><span class="n">tcp</span><span class="o">::</span><span class="n">acceptor</span><span class="o">&amp;</span><span class="w"> </span><span class="n">acceptor</span><span class="p">,</span><span class="w"> </span><span class="n">tcp</span><span class="o">::</span><span class="n">socket</span><span class="o">&amp;</span><span class="w"> </span><span class="n">socket</span><span class="p">,</span><span class="n">Res</span><span class="w"> </span><span class="o">&amp;</span><span class="n">res</span><span class="p">,</span><span class="n">Bot</span><span class="o">&amp;</span><span class="w"> </span><span class="n">bot</span><span class="p">)</span><span class="w"></span></td>
+    </tr>
+
+    <tr class="source-line">
+      <td class="lineno"><a id="l6" href="#l6">6</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
@@ -151,15 +159,15 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l6" href="#l6">6</a></td>
+      <td class="lineno"><a id="l7" href="#l7">7</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">    </span><span class="n">acceptor</span><span class="p">.</span><span class="n">async_accept</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="w">        </span><span class="n">acceptor</span><span class="p">.</span><span class="n">async_accept</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l7" href="#l7">7</a></td>
+      <td class="lineno"><a id="l8" href="#l8">8</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
@@ -167,7 +175,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l8" href="#l8">8</a></td>
+      <td class="lineno"><a id="l9" href="#l9">9</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
@@ -175,7 +183,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l9" href="#l9">9</a></td>
+      <td class="lineno"><a id="l10" href="#l10">10</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
@@ -183,7 +191,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l10" href="#l10">10</a></td>
+      <td class="lineno"><a id="l11" href="#l11">11</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
@@ -191,15 +199,15 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l11" href="#l11">11</a></td>
+      <td class="lineno"><a id="l12" href="#l12">12</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">http_connection</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">socket</span><span class="p">),</span><span class="n">res</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">();</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">http_connection</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">socket</span><span class="p">),</span><span class="n">res</span><span class="p">,</span><span class="n">bot</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">();</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l12" href="#l12">12</a></td>
+      <td class="lineno"><a id="l13" href="#l13">13</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
@@ -207,7 +215,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l13" href="#l13">13</a></td>
+      <td class="lineno"><a id="l14" href="#l14">14</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
@@ -215,15 +223,15 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l14" href="#l14">14</a></td>
+      <td class="lineno"><a id="l15" href="#l15">15</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="w">            </span><span class="n">http_server</span><span class="p">(</span><span class="n">acceptor</span><span class="p">,</span><span class="w"> </span><span class="n">socket</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">);</span><span class="w"></span></td>
+      <td class="src uncoveredLine"><span class="w">            </span><span class="n">http_server</span><span class="p">(</span><span class="n">acceptor</span><span class="p">,</span><span class="w"> </span><span class="n">socket</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">bot</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l15" href="#l15">15</a></td>
+      <td class="lineno"><a id="l16" href="#l16">16</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount uncoveredLine">&cross;</td>
@@ -231,7 +239,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l16" href="#l16">16</a></td>
+      <td class="lineno"><a id="l17" href="#l17">17</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
@@ -239,7 +247,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l17" href="#l17">17</a></td>
+      <td class="lineno"><a id="l18" href="#l18">18</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
@@ -247,7 +255,7 @@
     </tr>
 
     <tr class="source-line">
-      <td class="lineno"><a id="l18" href="#l18">18</a></td>
+      <td class="lineno"><a id="l19" href="#l19">19</a></td>
       <td class="linebranch">
       </td>
       <td class="linecount "></td>

@@ -10,13 +10,16 @@
 <body>
 	<div class=wrapper>
 		<div class="messagewrapper">
-			<ul id="messageList">
+			<div class="listWrapper">
+				<ul id="messageList">	
 
-			</ul>
+				</ul>
+			</div>
+
 		</div>
 		<form class="inputField" onsubmit="submitForm();return false;">
-			<input type="text" id="botInputForm" name="fname">
-			<input type="button" value="->" onClick="submitForm();">
+			<input type="text" class="inputField" id="botInputForm" name="fname">
+			<input type="button" class="inputField" value="SUBMIT" onClick="submitForm();">
 		</form>
 	</div>
 </body>
