@@ -1,0 +1,35 @@
+GetName:
+en
+1: {"what","what's"}
+2: {"name"}
+cz
+1: {"jak",U"jaké"}
+2: {"jmenuješ","jeméno","nazýváš"}
+GetTime:
+en
+1: {"what"}
+2: {"time"}
+cz
+1: {"jaký","kolik"}
+2: {"čas","hodin",}
+GetEuro:
+en
+1: {"much","price"}
+2: {"euro"}
+cz
+1: {"jaká","kolik"}
+2: {"cena","stojí"}
+3: {"eura","euro"}
+GetHelp:
+en
+1: {"help"}
+cz
+1: {"pomoc"}
+GetEuro:
+en
+1: {"euro"}
+2: {"history"}
+cz
+1: {"historie"}
+2: {"eura"}
+

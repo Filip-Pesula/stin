@@ -24,3 +24,6 @@ release - builds Release nad Test
 debugTest - buidlds TestCover runs all test and generates all TestcoverFiles
 test - runs all Test
 
+https://htmlpreview.github.io/?https://github.com/Filip-Pesula/stin/blob/master/Docs/Coverage/Html/coverage.html
+
+
