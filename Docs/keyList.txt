@@ -32,4 +32,14 @@ en
 cz
 1: {"historie"}
 2: {"eura"}
+RecommendEuro:
+en
+1: {"recommend"}
+2: {"euro"}
+3: {"purchese"}
+cz
+1: {"doporuč","doporučit"}
+2: {"nákup","koupit"}
+3: {"eura","euro"}
+
 

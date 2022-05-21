@@ -11,11 +11,11 @@ public:
     Money(unsigned int unit,unsigned int cents): cents(cents+unit*Conv)
     {
     }
-    int getCents(){
+    int getCents() const{
         return cents;
     }
     template<typename char_t>
-    std::basic_string<char_t> to_string(std::basic_string<char_t> decimal){
+    std::basic_string<char_t> to_string(std::basic_string<char_t> decimal) const{
         std::string u_char_s (std::to_string(cents/Conv));
         std::string c_char_s (stringWithFormat("%02d",cents%Conv));
         //std::string c_char_s (std::format("%02d",cents%Conv));
@@ -24,7 +24,7 @@ public:
         return unit + decimal + cents;
     }
     template<typename char_t>
-    std::basic_string<char_t> prefString(std::basic_string<char_t> decimal,std::basic_string<char_t> prefix){
+    std::basic_string<char_t> prefString(std::basic_string<char_t> decimal,std::basic_string<char_t> prefix) const{
         return prefix + this->to_string(decimal);
     }
     /**

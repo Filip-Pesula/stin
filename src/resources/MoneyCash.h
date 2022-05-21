@@ -7,18 +7,19 @@
 #include <boost/json.hpp>
 #include "Resoruce.h"
 #include <Money.h>
+#include <WebReader.h>
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace STIN_Bot{
     extern const boost::gregorian::date fdate;
-
     class MoneyCash : public Resource{
     public:
         static const std::string name;
     protected:
         std::filesystem::path path;
+        WebReader& webReader;
         std::vector<std::pair<boost::gregorian::date,Money<>>> contents; 
         bool read_string(const std::string& str);
         std::string write_string();
@@ -26,7 +27,7 @@ namespace STIN_Bot{
         bool getCourseTillToday();
 
     public:
-        MoneyCash(std::filesystem::path path);
+        MoneyCash(std::filesystem::path path, WebReader& webReader);
         
         std::string getName() override;
 

@@ -1,6 +1,7 @@
 #define BOOST_TEST_MODULE UtilstTest
 #include <boost/test/included/unit_test.hpp>
 #include <utils.h>
+#include <Logger.h>
 
 BOOST_AUTO_TEST_CASE(testgen404){
     std::string str = STIN_Bot::gen404("/adr");
@@ -22,6 +23,13 @@ BOOST_AUTO_TEST_CASE(testgen404){
 }
 
 BOOST_AUTO_TEST_CASE(test_now){
-    std::cout<<STIN_Bot::now();
+    Logger::log(STIN_Bot::now());
     BOOST_CHECK_EQUAL(STIN_Bot::now(), std::time(0));
+
+}
+BOOST_AUTO_TEST_CASE(test_now_s){
+    Logger::log(STIN_Bot::now_s());
+    BOOST_CHECK_EQUAL(STIN_Bot::now_s()[5], ':');
+    BOOST_CHECK_EQUAL(STIN_Bot::now_s()[2], ':');
+
 }

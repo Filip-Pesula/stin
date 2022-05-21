@@ -56,7 +56,12 @@
         "initializer_list": "cpp",
         "streambuf": "cpp",
         "any": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "cctype": "cpp",
+        "cstddef": "cpp",
+        "random": "cpp",
+        "unordered_map": "cpp",
+        "functional": "cpp"
     },
     "cmake.ctest.parallelJobs": 5,
     "cmakeExplorer.extraCtestLoadArgs": "--output-on-failure",

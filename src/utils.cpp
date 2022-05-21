@@ -9,7 +9,12 @@ namespace STIN_Bot{
     }
     std::string now_s()
     {
-        return boost::lexical_cast<std::string>(time(0));
+        time_t rawTimeNow = std::time(0);
+        auto localeTimeNow = *std::localtime(&rawTimeNow);
+        std::ostringstream oss;
+        oss << std::put_time(&localeTimeNow, "%H:%M:%S");
+
+        return oss.str();
     }
     std::string gen404(std::string adr){
         std::stringstream ss;

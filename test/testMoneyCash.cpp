@@ -1,15 +1,27 @@
 #define BOOST_TEST_MODULE DummyTest
+
+#include <gmock/gmock.h>
 #include <boost/test/included/unit_test.hpp>
 
 #include <resources/MoneyCash.h>
 #include <Logger.h>
+#include <cstdio>
 
 using namespace STIN_Bot;
+using namespace testing;
+
+class WebReaderMock : public WebReader{
+public:
+    WebReaderMock(){};
+    WebReaderMock(const WebReaderMock& other){};
+    MOCK_METHOD(std::string,getCourse,(boost::gregorian::date date),(override));
+    
+};
 
 class MoneyCash_mock : public MoneyCash{
 public:
-    MoneyCash_mock(std::filesystem::path path): 
-        MoneyCash(path)
+    MoneyCash_mock(std::filesystem::path path,WebReaderMock& wrm): 
+        MoneyCash(path, wrm)
     {
     }
     void setTestPath(std::filesystem::path path){
@@ -31,7 +43,7 @@ public:
         return getCuseforDate(date);
     }
     std::vector<std::pair<boost::gregorian::date,Money<>>> exposeGetCuseTillToday(){
-        getCourseTillToday();
+        MoneyCash::getCourseTillToday();
         return contents;
     }
 
@@ -39,10 +51,29 @@ public:
 
 
 struct TestFixture{
+    WebReaderMock wrm;
     MoneyCash_mock moneyCash_mock;
     TestFixture():
-        moneyCash_mock(std::filesystem::path("./build/Test/testMoneycash.json"))
+        moneyCash_mock(std::filesystem::path("./build/Test/testMoneycash.json"),wrm)
     {
+    EXPECT_CALL(wrm, getCourse(_)).Times(AnyNumber());
+    ON_CALL(wrm, getCourse).WillByDefault([this] (boost::gregorian::date date){
+
+        return (*this).wrm.date_to_str(date) +
+R"( #84
+Indie|rupie|100|INR|30,647
+Indonesie|rupie|1000|IDR|1,617
+Island|koruna|100|ISK|17,981
+Izrael|nový šekel|1|ILS|6,993
+Japonsko|jen|100|JPY|18,057
+Dánsko|koruna|1|DKK|3,316
+EMU|euro|1|EUR|24,670
+)";
+    });
+
+    }
+    ~TestFixture(){
+        std::remove("./build/Test/testMoneycash.json");
     }
 };
 
@@ -132,15 +163,17 @@ BOOST_FIXTURE_TEST_CASE( test_Contains, TestFixture )
     {\"date\":\"2022-5-1\",\"cents\":2014},\
     {\"date\":\"2022-5-2\",\"cents\":2017},\
     {\"date\":\"2022-5-3\",\"cents\":2018},\
-    {\"date\":\"2022-5-4\",\"cents\":2000}\
+    {\"date\":\"2022-5-4\",\"cents\":2000},\
+    {\"date\":\"2022-5-5\",\"cents\":0}\
 ]";
     moneyCash_mock.setTestData(std::vector<std::pair<boost::gregorian::date,Money<>>> ());
     bool exec = moneyCash_mock.exposeRead_string(JSON_STR);
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     BOOST_CHECK_EQUAL(exec,false);
-    BOOST_CHECK_EQUAL(contents.size(),4);
+    BOOST_CHECK_EQUAL(contents.size(),5);
     BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-1")),true);
     BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-4")),true);
+    BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-5")),false);
 }
 
 BOOST_FIXTURE_TEST_CASE( test_Get_Course_Till_Today, TestFixture )
@@ -150,12 +183,14 @@ BOOST_FIXTURE_TEST_CASE( test_Get_Course_Till_Today, TestFixture )
     Logger::log("read Contents Till Today");
     std::vector<std::pair<boost::gregorian::date,Money<>>> contents =  moneyCash_mock.getContents();
     
-    BOOST_WARN(contents.size()>1);
-    BOOST_WARN_EQUAL(moneyCash_mock.containsDate(fdate),true);
+    BOOST_CHECK(contents.size()>1);
+    BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(fdate),true);
+    BOOST_CHECK_EQUAL(contents[0].second.getCents(),2467);
     Logger::log(contents.size());
+    Logger::log(contents[0].first);
+    Logger::log(contents[0].second.to_string(std::string(",")));
+
 }
-
-
 
 BOOST_AUTO_TEST_CASE(test_Log_string){
     BOOST_CHECK(1 == 1);

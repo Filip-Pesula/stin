@@ -26,6 +26,36 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "presentation": {
+                "clear": true                        // <-- this line
+            }
+        },
+        {
+            "label": "build-only",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "'build/.dump'",
+                "-S",
+                ".",
+                "-G",
+                "MinGW Makefiles",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                ";",
+                "cmake",
+                "--build",
+                "build/.dump",
+                //"--parallel"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "clear": true                        // <-- this line
             }
         },
         {
@@ -51,6 +81,9 @@
             "group": {
                 "kind": "build",
                 "isDefault": false
+            },
+            "presentation": {
+                "clear": true                        // <-- this line
             }
         },
         {
