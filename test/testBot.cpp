@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_CASE(test_get_Money_Dist_ascend_missing){
 
 BOOST_AUTO_TEST_CASE(test_Get_Euro_Recomandation_below_10_Request_CZ){
     TestFixture tf(MockController::TestType::descend_below_10);
-    std::u32string response =  tf.bot.processMessage(U"doporuč náku eura");
+    std::u32string response =  tf.bot.processMessage(U"doporuč nákup eura");
     BOOST_CHECK(response.find(U"Dopuručuji nakoupit:") != std::u32string::npos);
     BOOST_CHECK(response.find(U"neklesá") != std::u32string::npos);
     Logger::log("response:",response);
@@ -319,7 +319,7 @@ BOOST_AUTO_TEST_CASE(test_Get_Euro_Recomandation_below_10_Request_CZ){
 
 BOOST_AUTO_TEST_CASE(test_Get_Euro_Recomandation_above_10_Request_CZ){
     TestFixture tf(MockController::TestType::descend_above_10);
-    std::u32string response =  tf.bot.processMessage(U"doporuč náku eura");
+    std::u32string response =  tf.bot.processMessage(U"doporuč nákup eura");
     BOOST_CHECK(response.find(U"Nedopuručuji nakoupit:") != std::u32string::npos);
     BOOST_CHECK(response.find(U"klesá") != std::u32string::npos);
     Logger::log("response:",response);
@@ -327,7 +327,7 @@ BOOST_AUTO_TEST_CASE(test_Get_Euro_Recomandation_above_10_Request_CZ){
 
 BOOST_AUTO_TEST_CASE(test_Get_Euro_Recomandation_ascend_Request_CZ){
     TestFixture tf(MockController::TestType::ascend);
-    std::u32string response =  tf.bot.processMessage(U"doporuč náku eura");
+    std::u32string response =  tf.bot.processMessage(U"doporuč nákup eura");
     BOOST_CHECK(response.find(U"Dopuručuji nakoupit:") != std::u32string::npos);
     BOOST_CHECK(response.find(U"stoupá") != std::u32string::npos);
     Logger::log("response:",response);
