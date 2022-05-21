@@ -75,17 +75,16 @@ file(GLOB RESOURCES ${CMAKE_SOURCE_DIR}/res/*)
 file(COPY ${RESOURCES} DESTINATION ${RELEASE_OUT_DIRECORY})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  include(FetchContent)
+
   #compile tests
   enable_testing()
   message(STATUS "----------------TEST----------------")
 
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TEST_OUT_DIRECTORY})
 
-
-
   file(GLOB TESTS ${CMAKE_SOURCE_DIR}/test/*.cpp)
   string(REGEX REPLACE "src/Main.cpp" "" SOURCES "${SOURCES}")
-
   foreach(test ${TESTS})
     get_filename_component(TESTNAME ${test} NAME_WLE)
     set(TESTNAME "Test_${TESTNAME}")
@@ -93,6 +92,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(STATUS "testDir='${test}'")
     add_executable(${TESTNAME} ${test})
     target_link_libraries(${TESTNAME} srcObjects)
+    target_link_libraries(${TESTNAME} gtestSrcObjects)
     if(WIN32)
       target_link_libraries(${TESTNAME} wsock32 ws2_32)
     endif()

@@ -10,12 +10,14 @@ namespace STIN_Bot{
 const std::string MoneyCash::name = "MoneyCash";
 const boost::gregorian::date fdate(boost::gregorian::from_simple_string("2022-4-17"));
 
-MoneyCash::MoneyCash(std::filesystem::path path):
-    path(path)
+MoneyCash::MoneyCash(std::filesystem::path path,  WebReader& webReader):
+    path(path),
+    webReader(webReader)
 {
-    if(read()){
-        write();
-    }
+    read();
+    getCourseTillToday();
+
+    write();
 }
 
 std::string MoneyCash::getName(){
@@ -52,6 +54,7 @@ bool MoneyCash::read_string(const std::string& str){
 
 std::string MoneyCash::write_string(){
     boost::json::array js;
+    Logger::log("Writing:", contents.size());
     for(auto pair : contents){
         js.emplace_back( boost::json::object{ {"date",boost::gregorian::to_iso_extended_string(pair.first)},{"cents",pair.second.getCents()}});
     }
@@ -93,10 +96,9 @@ bool MoneyCash::write(){
  * @return Money<> for given date, or 0 if impossible to get
  */
 Money<> MoneyCash::getCuseforDate(boost::gregorian::date date){
-    std::string date_s =  boost::gregorian::to_iso_extended_string(date);
-    std::string euroData = getEuro(date_s.substr(8,2)+"." +date_s.substr(5,2)+"."+date_s.substr(0,4));
+    std::string euroData =  webReader.getCourse(date);
     try{
-        return Money<>::getFromString(extractEuro(euroData));
+        return Money<>::getFromString(webReader.extractCourse(euroData,"EUR"));
     }
     catch(std::invalid_argument& e){
         Logger::log("Could not read Money for date: ",date);
@@ -106,23 +108,22 @@ Money<> MoneyCash::getCuseforDate(boost::gregorian::date date){
 
 bool MoneyCash::containsDate(boost::gregorian::date schearchedDate){
     return std::any_of(contents.begin(),contents.end(),[schearchedDate](std::pair<boost::gregorian::date,Money<>> p){
-        return schearchedDate == p.first;
+        return( (schearchedDate == p.first) && (p.second.getCents() != 0) );
     });
 }
+
 bool MoneyCash::getCourseTillToday(){
     boost::gregorian::date lookUpDate = fdate;
+    Logger::log("firstDate",fdate);
     boost::posix_time::ptime timeLocal = boost::posix_time::second_clock::local_time();
     boost::gregorian::date today = timeLocal.date();
-
+    Logger::log("firstDate",today);
     while(lookUpDate < today){
         if(!containsDate(lookUpDate)){
-            Logger::log("notContained",lookUpDate);
             Money<> m = getCuseforDate(lookUpDate);
-            Logger::log("price:",m.to_string<char>(","));
-
+            contents.push_back(std::pair<boost::gregorian::date,Money<>>(lookUpDate,m));
         }
         else{
-            Logger::log("contained",lookUpDate);
         }
         lookUpDate+= boost::gregorian::date_duration (1);
     }

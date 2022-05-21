@@ -51,7 +51,8 @@ int main(int argc, char* argv[])
                 { std::string("/BotVisual.css"),STIN_Bot::HtmlType::css, root/ "ui" / "BotVisual.css"}
             }
         );
-        std::unique_ptr<STIN_Bot::MoneyCash> euroCash = std::make_unique<STIN_Bot::MoneyCash>(cash/"eurocas.json");
+        WebReader webReader;
+        std::unique_ptr<STIN_Bot::MoneyCash> euroCash = std::make_unique<STIN_Bot::MoneyCash>(cash/"eurocas.json",webReader);
 
         std::vector<std::unique_ptr<Resource>> resources;
         resources.push_back(std::move(htmlRes));
@@ -68,6 +69,8 @@ int main(int argc, char* argv[])
         requests.push_back(std::move(std::make_unique<STIN_Bot::GetHelpRequestEN>()));
         requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroHystoryRequestEN>()));
         requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroHystoryRequestCZ>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroRecomandationRequestEN>()));
+        requests.push_back(std::move(std::make_unique<STIN_Bot::GetEuroRecomandationRequestCZ>()));
         STIN_Bot::Bot bot(std::move(requests),res);
 
         net::io_context ioc{ 1 };

@@ -2,6 +2,7 @@
 Docs/Coverage/*
 build/.dump/*
 build/Release/*
+build/Debug/*
 build/Test/*
 build/TestCover/*
 Testing/*

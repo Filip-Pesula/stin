@@ -1,9 +1,35 @@
 #include "Request.h"
 #include <algorithm>
+#include <numeric>
 #include <utils.h>
 #include <resources/MoneyCash.h>
+#include <string>
+#include <Logger.h>
+
 namespace STIN_Bot
 {
+    float getDifference(const std::vector<std::pair<boost::gregorian::date,Money<>>>& moneyh){
+        std::vector<float> centdiff(2);
+        std::fill(centdiff.begin(),centdiff.end(),0.f);
+        {
+            auto itr = centdiff.begin();
+            for(auto it = moneyh.end()-1; it <= moneyh.begin(), itr < centdiff.end(); it--,itr++){
+                while (it->second.getCents()==0 && it >= moneyh.begin())
+                {
+                    Logger::log("skipF",it->second.getCents());
+                    it--;
+                }
+                Logger::log("prev",(it-1)->second.getCents());
+                Logger::log("curent",it->second.getCents());
+                *itr = float(it->second.getCents() -(it-1)->second.getCents()) / float(it->second.getCents());
+            }
+        }
+        Logger::log("firstdif",centdiff[0]);
+        Logger::log("firstdif",centdiff[1]);
+        return(std::accumulate(centdiff.begin(),centdiff.end(),0.f));
+    };
+
+
     KeySet::KeySet(std::vector<std::u32string> keySet):
         keySet(keySet)
     {
@@ -97,8 +123,9 @@ Request can be:\n\
 1. what is your name\n\
 2. what time is it\n\
 3. how much euro costs\n\
-4. euro history\n\n\
-!!Be aweare Bot is case sensitive :)";
+4. euro history\n\
+5. recommend euro purchase\n\
+\n!!Be aweare Bot is case sensitive :)";
     }
     std::vector<KeySet> GetHelpRequestCZ::getKeysets() const{
         return std::vector<KeySet>({
@@ -111,8 +138,9 @@ Příkazy:\n\
 1. jak se jmenuješ\n\
 2. kolik je hodin\n\
 3. kolik stojí euro\n\
-4. historie eura\n\n\
-!!Pozor bot je case sensitive :)";
+4. historie eura\n\
+5. doporuč nákup eura\n\
+\n!!Pozor bot je case sensitive :)";
     }
 
     std::vector<KeySet> GetEuroHystoryRequestCZ::getKeysets() const{
@@ -124,6 +152,7 @@ Příkazy:\n\
     std::u32string GetEuroHystoryRequestCZ::getResponse(Res& res) const{
         MoneyCash* moneyCash = dynamic_cast<MoneyCash*>(res[MoneyCash::name]);
         std::vector<std::pair<boost::gregorian::date,Money<>>> moneyh = moneyCash->history();
+        std::reverse(moneyh.begin(),moneyh.end());
         std::basic_stringstream<char32_t> history;
         for (std::pair<boost::gregorian::date,Money<>> m : moneyh)
         {
@@ -142,6 +171,7 @@ Příkazy:\n\
     std::u32string GetEuroHystoryRequestEN::getResponse(Res& res) const{
         MoneyCash* moneyCash = dynamic_cast<MoneyCash*>(res[MoneyCash::name]);
         std::vector<std::pair<boost::gregorian::date,Money<>>> moneyh = moneyCash->history();
+        std::reverse(moneyh.begin(),moneyh.end());
         std::basic_stringstream<char32_t> history;
         for (std::pair<boost::gregorian::date,Money<>> m : moneyh)
         {
@@ -150,5 +180,68 @@ Příkazy:\n\
         }
         return U"Euro history: \n" + history.str();
     }
+
+
+    std::vector<KeySet> GetEuroRecomandationRequestCZ::getKeysets() const{
+        return std::vector<KeySet>({
+            KeySet({U"doporuč",U"doporučit"}),
+            KeySet({U"nákup",U"koupit"}),
+            KeySet({U"eura",U"euro"})
+        });
+    }
+    std::u32string GetEuroRecomandationRequestCZ::getResponse(Res& res) const{
+        MoneyCash* moneyCash = dynamic_cast<MoneyCash*>(res[MoneyCash::name]);
+        std::vector<std::pair<boost::gregorian::date,Money<>>> moneyh = moneyCash->history();
+        if(moneyh.size()<3){
+            return U"Nedostatek dat pro doporučení nákupu Eura.";
+        }
+        float dist = getDifference(moneyh);
+        
+        std::stringstream dist_ss;
+        dist_ss << std::fixed << std::setprecision(4) << dist;
+        std::string dist_s = dist_ss.str();
+
+        if(dist < -0.1){
+            return U"Nedopuručuji nakoupit: \neuro klesá o více jak 10%\nzměna:" + std::basic_string<char32_t>( dist_s.begin(),dist_s.end());
+        }
+        if(dist <= 0.0){
+            return U"Dopuručuji nakoupit: \neuro neklesá o více jak 10%\nzměna:" + std::basic_string<char32_t>( dist_s.begin(),dist_s.end());
+        }
+        else{
+            return U"Dopuručuji nakoupit: \neuro stoupá\nzměna:" + std::basic_string<char32_t>( dist_s.begin(),dist_s.end());
+        }
+    }
+
+    std::vector<KeySet> GetEuroRecomandationRequestEN::getKeysets() const{
+        return std::vector<KeySet>({
+            KeySet({U"recommend"}),
+            KeySet({U"euro"}),
+            KeySet({U"purchese"})
+        });
+    }
+    std::u32string GetEuroRecomandationRequestEN::getResponse(Res& res) const{
+        MoneyCash* moneyCash = dynamic_cast<MoneyCash*>(res[MoneyCash::name]);
+        std::vector<std::pair<boost::gregorian::date,Money<>>> moneyh = moneyCash->history();
+        if(moneyh.size()<3){
+            return U"Not enough data to recommend.";
+        }
+        float dist = getDifference(moneyh);
+        
+        std::stringstream dist_ss;
+        dist_ss << std::fixed << std::setprecision(4) << dist;
+        std::string dist_s = dist_ss.str();
+
+        if(dist < -0.1){
+            return U"Not Recommending purchase: \neuro is descending over 10%\ndifference:" + std::basic_string<char32_t>( dist_s.begin(),dist_s.end());
+        }
+        if(dist <= 0.0){
+            return U"Recommending purchase: \neuro is not descending over 10%\ndifference:" + std::basic_string<char32_t>( dist_s.begin(),dist_s.end());
+        }
+        else{
+            return U"Recommending purchase: \neuro is ascending\ndifference:" + std::basic_string<char32_t>( dist_s.begin(),dist_s.end());
+        }
+    }
+
+
 
 } // namespace STIN_Bot
