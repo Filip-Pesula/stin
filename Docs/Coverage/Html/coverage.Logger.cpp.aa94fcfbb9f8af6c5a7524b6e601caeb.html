@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th scope="row">Date:</th>
-      <td>2022-05-21 22:04:13</td>
+      <td>2022-05-24 02:27:06</td>
     </tr>
   </table>
 </div>
@@ -41,15 +41,15 @@
     </tr>
     <tr>
       <th scope="row">Lines:</th>
-      <td>12</td>
-      <td>13</td>
-      <td class="coverage-high">92.3%</td>
+      <td>15</td>
+      <td>15</td>
+      <td class="coverage-high">100.0%</td>
     </tr>
     <tr>
       <th scope="row">Functions:</th>
-      <td>3</td>
       <td>4</td>
-      <td class="coverage-medium">75.0%</td>
+      <td>4</td>
+      <td class="coverage-high">100.0%</td>
     </tr>
     <tr>
       <th scope="row">Branches:</th>
@@ -75,18 +75,18 @@
     </tr>
     <tr>
       <td>
-        <a href="#l18">Log(boost::gregorian::date)</a>
+        <a href="#l18">Log(std::ostream&amp;, boost::gregorian::date)</a>
       </td>
       <td>
         <a href="#l18">18</a>
       </td>
       <td>
-        <a href="#l18"> called 608 times</a>
+        <a href="#l18"> called 132 times</a>
       </td>
     </tr>
     <tr>
       <td>
-        <a href="#l8">Log(std::__cxx11::basic_string&lt;char32_t, std::char_traits&lt;char32_t&gt;, std::allocator&lt;char32_t&gt; &gt;)</a>
+        <a href="#l8">Log(std::ostream&amp;, std::__cxx11::basic_string&lt;char32_t, std::char_traits&lt;char32_t&gt;, std::allocator&lt;char32_t&gt; &gt;)</a>
       </td>
       <td>
         <a href="#l8">8</a>
@@ -97,7 +97,7 @@
     </tr>
     <tr>
       <td>
-        <a href="#l13">Log(std::basic_string_view&lt;char32_t, std::char_traits&lt;char32_t&gt; &gt;)</a>
+        <a href="#l13">Log(std::ostream&amp;, std::basic_string_view&lt;char32_t, std::char_traits&lt;char32_t&gt; &gt;)</a>
       </td>
       <td>
         <a href="#l13">13</a>
@@ -108,13 +108,13 @@
     </tr>
     <tr>
       <td>
-        <a href="#l5">Logger::init()</a>
+        <a href="#l5">Logger::init(std::filesystem::__cxx11::path)</a>
       </td>
       <td>
         <a href="#l5">5</a>
       </td>
       <td>
-        <a href="#l5"> not called</a>
+        <a href="#l5"> called 13 times</a>
       </td>
     </tr>
   </table>
@@ -161,31 +161,31 @@
       <td class="linebranch">
       </td>
       <td class="linecount "></td>
-      <td class="src "><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">Logger</span><span class="o">::</span><span class="n">DEF_LOG_FOLDER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/Log&quot;</span><span class="p">;</span><span class="w"></span></td>
+      <td class="src "><span class="n">std</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">path</span><span class="w"> </span><span class="n">Logger</span><span class="o">::</span><span class="n">Logpath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">path</span><span class="p">{</span><span class="s">&quot;.&quot;</span><span class="p">}</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;Log&quot;</span><span class="o">/</span><span class="s">&quot;log.txt&quot;</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l5" href="#l5">5</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount uncoveredLine">&cross;</td>
-      <td class="src uncoveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Logger::init</span><span class="p">(){</span><span class="w"></span></td>
+      <td class="linecount coveredLine">13</td>
+      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Logger::init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">path</span><span class="w"> </span><span class="n">path</span><span class="p">){</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l6" href="#l6">6</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "></td>
+      <td class="linecount coveredLine">13</td>
+      <td class="src coveredLine"><span class="w">    </span><span class="n">Logpath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="p">;</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l7" href="#l7">7</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount "></td>
-      <td class="src "><span class="p">}</span><span class="w"></span></td>
+      <td class="linecount coveredLine">13</td>
+      <td class="src coveredLine"><span class="p">}</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -193,7 +193,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount coveredLine">26</td>
-      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">u32string</span><span class="w"> </span><span class="n">obj</span><span class="p">){</span><span class="w"></span></td>
+      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="n">std</span><span class="o">::</span><span class="n">u32string</span><span class="w"> </span><span class="n">obj</span><span class="p">){</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -225,7 +225,7 @@
         </details>
       </td>
       <td class="linecount coveredLine">26</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">utfConverter</span><span class="p">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span><span class="w"></span></td>
+      <td class="src coveredLine"><span class="w">    </span><span class="n">str</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">utfConverter</span><span class="p">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -249,7 +249,7 @@
       <td class="linebranch">
       </td>
       <td class="linecount coveredLine">1</td>
-      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">u32string_view</span><span class="w"> </span><span class="n">obj</span><span class="p">){</span><span class="w"></span></td>
+      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="n">std</span><span class="o">::</span><span class="n">u32string_view</span><span class="w"> </span><span class="n">obj</span><span class="p">){</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -296,7 +296,7 @@
         </details>
       </td>
       <td class="linecount coveredLine">1</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">utfConverter</span><span class="p">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">strO</span><span class="p">);</span><span class="w"></span></td>
+      <td class="src coveredLine"><span class="w">    </span><span class="n">str</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">utfConverter</span><span class="p">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">strO</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -311,8 +311,8 @@
       <td class="lineno"><a id="l18" href="#l18">18</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">608</td>
-      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">gregorian</span><span class="o">::</span><span class="n">date</span><span class="w"> </span><span class="n">obj</span><span class="p">){</span><span class="w"></span></td>
+      <td class="linecount coveredLine">132</td>
+      <td class="src coveredLine"><span class="kt">void</span><span class="w"> </span><span class="nf">Log</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">str</span><span class="p">,</span><span class="n">boost</span><span class="o">::</span><span class="n">gregorian</span><span class="o">::</span><span class="n">date</span><span class="w"> </span><span class="n">obj</span><span class="p">){</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
@@ -321,20 +321,20 @@
         <details class="linebranchDetails">
         <summary class="linebranchSummary">1/2</summary>
         <div class="linebranchContents">
-          <div class="takenBranch">&check; Branch 2 taken 608 times.</div>
+          <div class="takenBranch">&check; Branch 2 taken 132 times.</div>
           <div class="notTakenBranch">&cross; Branch 3 not taken.</div>
         </div>
         </details>
       </td>
-      <td class="linecount coveredLine">608</td>
-      <td class="src coveredLine"><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">boost</span><span class="o">::</span><span class="n">gregorian</span><span class="o">::</span><span class="n">to_iso_extended_string</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span><span class="w"></span></td>
+      <td class="linecount coveredLine">132</td>
+      <td class="src coveredLine"><span class="w">    </span><span class="n">str</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">boost</span><span class="o">::</span><span class="n">gregorian</span><span class="o">::</span><span class="n">to_iso_extended_string</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span><span class="w"></span></td>
     </tr>
 
     <tr class="source-line">
       <td class="lineno"><a id="l20" href="#l20">20</a></td>
       <td class="linebranch">
       </td>
-      <td class="linecount coveredLine">608</td>
+      <td class="linecount coveredLine">132</td>
       <td class="src coveredLine"><span class="p">}</span><span class="w"></span></td>
     </tr>
 
