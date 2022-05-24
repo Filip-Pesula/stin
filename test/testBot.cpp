@@ -308,6 +308,41 @@ BOOST_AUTO_TEST_CASE(test_get_Money_Dist_ascend_missing){
     BOOST_CHECK_GT(diff, 0.0f);
 }
 
+BOOST_AUTO_TEST_CASE(test_get_Money_Dist_ascend_missing_middle){
+    boost::posix_time::ptime timeLocal = boost::posix_time::second_clock::local_time();
+    boost::gregorian::date today = timeLocal.date();
+    std::vector<std::pair<boost::gregorian::date,Money<>>> moneyh{
+        { (today - boost::gregorian::date_duration (7)) , Money<>(2016)},
+        { (today - boost::gregorian::date_duration (6)) , Money<>(2016)},
+        { (today - boost::gregorian::date_duration (5)) , Money<>(2076)},
+        { (today - boost::gregorian::date_duration (4)) , Money<>(2086)},
+        { (today - boost::gregorian::date_duration (3)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (2)) , Money<>(2096)},
+        { (today - boost::gregorian::date_duration (1)) , Money<>(0)},
+        { today , Money<>(0)},
+    };
+    float diff = getDifference(moneyh); 
+    BOOST_CHECK_GT(diff, 0.0f);
+    BOOST_CHECK_LT(diff, 0.1f);
+}
+
+BOOST_AUTO_TEST_CASE(test_get_Money_Dist_ascend_zero_devision){
+    boost::posix_time::ptime timeLocal = boost::posix_time::second_clock::local_time();
+    boost::gregorian::date today = timeLocal.date();
+    std::vector<std::pair<boost::gregorian::date,Money<>>> moneyh{
+        { (today - boost::gregorian::date_duration (7)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (6)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (5)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (4)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (3)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (1)) , Money<>(0)},
+        { (today - boost::gregorian::date_duration (2)) , Money<>(2096)},
+        { today , Money<>(0)},
+    };
+    float diff = getDifference(moneyh);
+    BOOST_CHECK_GT(diff, -0.1f);
+    BOOST_CHECK_LT(diff, 0.1f);
+}
 
 BOOST_AUTO_TEST_CASE(test_Get_Euro_Recomandation_below_10_Request_CZ){
     TestFixture tf(MockController::TestType::descend_below_10);

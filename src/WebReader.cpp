@@ -22,7 +22,7 @@ std::string WebReader::getCourse(boost::gregorian::date date) {
     stream.socket().remote_endpoint(ec);
     if (ec)
     {
-        Logger::log("Unable to connect to:","www.cnb.cz");
+        Logger::error("Unable to connect to:","www.cnb.cz");
         return "";
     }
     stream    << "GET /cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date=" << date_s << " HTTP/1.1\r\n";

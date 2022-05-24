@@ -85,7 +85,7 @@ bool MoneyCash::write(){
         return true;
     }
     else{
-        Logger::log("could not create file:", path);
+        Logger::error("could not create file:", path);
     }
     return false;
 }
@@ -101,14 +101,15 @@ Money<> MoneyCash::getCuseforDate(boost::gregorian::date date){
         return Money<>::getFromString(webReader.extractCourse(euroData,"EUR"));
     }
     catch(std::invalid_argument& e){
-        Logger::log("Could not read Money for date: ",date);
+        Logger::error("Could not read Money for date: ",date);
+        Logger::error("reason:",e.what());
         return Money<>(0);
     }
 }
 
 bool MoneyCash::containsDate(boost::gregorian::date schearchedDate){
     return std::any_of(contents.begin(),contents.end(),[schearchedDate](std::pair<boost::gregorian::date,Money<>> p){
-        return( (schearchedDate == p.first) && (p.second.getCents() != 0) );
+        return( (schearchedDate == p.first) );
     });
 }
 
@@ -118,6 +119,10 @@ bool MoneyCash::getCourseTillToday(){
     boost::posix_time::ptime timeLocal = boost::posix_time::second_clock::local_time();
     boost::gregorian::date today = timeLocal.date();
     Logger::log("firstDate",today);
+    //cleart out empty values
+    contents.erase(std::remove_if(contents.begin(),contents.end(),[](std::pair<boost::gregorian::date,Money<>> p){
+        return (p.second.getCents()==0);
+    }),contents.end());
     while(lookUpDate < today){
         if(!containsDate(lookUpDate)){
             Money<> m = getCuseforDate(lookUpDate);
@@ -136,7 +141,7 @@ bool MoneyCash::getCourseTillToday(){
 
 Money<> MoneyCash::latest(){
     if(!getCourseTillToday() || contents.empty()){
-        Logger::log("Could not Read Money!!!");
+        Logger::error("Could not Read Money!!!");
         return Money(0);
     }
     Money<> m  = contents[contents.size()-1].second;
@@ -149,7 +154,7 @@ Money<> MoneyCash::latest(){
 std::vector<std::pair<boost::gregorian::date,Money<>>> MoneyCash::history(){
     std::vector<std::pair<boost::gregorian::date,Money<>>> money;
     if(!getCourseTillToday() || contents.empty()){
-        Logger::log("Could not Read Money!!!");
+        Logger::error("Could not Read Money!!!");
         return money;
     }
     return contents;

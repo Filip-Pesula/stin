@@ -36,14 +36,14 @@ public:
      */
     static Money getFromString(const std::string& m){
         if(m.size()!=6){
-            throw std::invalid_argument("incorrect money format");
+            throw std::invalid_argument("incorrect money format: " + m);
         }
         if(m[2]!=','){
-            throw std::invalid_argument("incorrect money format");
+            throw std::invalid_argument("incorrect money format: " + m);
         }
         if(m.substr(0,2).find_first_not_of("0123456789")!=std::string::npos ||
            m.substr(3).find_first_not_of("0123456789")!=std::string::npos){
-            throw std::invalid_argument("incorrect money format");
+            throw std::invalid_argument("incorrect money format: " + m);
         }
         try{
             int unit = std::stoi( m.substr(0,2) );
@@ -51,7 +51,7 @@ public:
             return Money<>(unit,cents);
         }
         catch(std::exception& e){
-            throw std::invalid_argument("incorrect money format");
+            throw std::invalid_argument("incorrect money format: " + m);
         }
     }
 };

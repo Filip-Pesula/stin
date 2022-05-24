@@ -13,19 +13,25 @@ namespace STIN_Bot
         std::fill(centdiff.begin(),centdiff.end(),0.f);
         {
             auto itr = centdiff.begin();
-            for(auto it = moneyh.end()-1; it <= moneyh.begin(), itr < centdiff.end(); it--,itr++){
-                while (it->second.getCents()==0 && it >= moneyh.begin())
+            for(auto it = moneyh.end()-1; it > moneyh.begin() +1, itr < centdiff.end(); it--,itr++){
+                while (it->second.getCents()==0 && it > moneyh.begin() +1)
                 {
-                    Logger::log("skipF",it->second.getCents());
                     it--;
                 }
-                Logger::log("prev",(it-1)->second.getCents());
-                Logger::log("curent",it->second.getCents());
-                *itr = float(it->second.getCents() -(it-1)->second.getCents()) / float(it->second.getCents());
+                auto itb = it-1;
+                while (itb->second.getCents()==0 && itb >= moneyh.begin() +1 )
+                {
+                    itb--;
+                }
+                if(itb->second.getCents()>0){
+                    *itr = float(it->second.getCents() - itb->second.getCents()) / float(itb->second.getCents());
+                }
+                else{
+                    *itr = 0;
+                }
+
             }
         }
-        Logger::log("firstdif",centdiff[0]);
-        Logger::log("firstdif",centdiff[1]);
         return(std::accumulate(centdiff.begin(),centdiff.end(),0.f));
     };
 
@@ -198,7 +204,7 @@ Příkazy:\n\
         float dist = getDifference(moneyh);
         
         std::stringstream dist_ss;
-        dist_ss << std::fixed << std::setprecision(4) << dist;
+        dist_ss << std::fixed << std::setprecision(4) << dist * 100.f << "%";
         std::string dist_s = dist_ss.str();
 
         if(dist < -0.1){
@@ -228,7 +234,7 @@ Příkazy:\n\
         float dist = getDifference(moneyh);
         
         std::stringstream dist_ss;
-        dist_ss << std::fixed << std::setprecision(4) << dist;
+        dist_ss << std::fixed << std::setprecision(4) << dist * 100.f << "%";
         std::string dist_s = dist_ss.str();
 
         if(dist < -0.1){

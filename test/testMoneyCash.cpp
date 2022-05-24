@@ -12,9 +12,18 @@ using namespace testing;
 
 class WebReaderMock : public WebReader{
 public:
-    WebReaderMock(){};
-    WebReaderMock(const WebReaderMock& other){};
-    MOCK_METHOD(std::string,getCourse,(boost::gregorian::date date),(override));
+    std::string getCourse(boost::gregorian::date date)override{
+        return date_to_str(date) +
+R"( #84
+Indie|rupie|100|INR|30,647
+Indonesie|rupie|1000|IDR|1,617
+Island|koruna|100|ISK|17,981
+Izrael|nový šekel|1|ILS|6,993
+Japonsko|jen|100|JPY|18,057
+Dánsko|koruna|1|DKK|3,316
+EMU|euro|1|EUR|24,670
+)";
+    };
     
 };
 
@@ -56,24 +65,11 @@ struct TestFixture{
     TestFixture():
         moneyCash_mock(std::filesystem::path("./build/Test/testMoneycash.json"),wrm)
     {
-    EXPECT_CALL(wrm, getCourse(_)).Times(AnyNumber());
-    ON_CALL(wrm, getCourse).WillByDefault([this] (boost::gregorian::date date){
-
-        return (*this).wrm.date_to_str(date) +
-R"( #84
-Indie|rupie|100|INR|30,647
-Indonesie|rupie|1000|IDR|1,617
-Island|koruna|100|ISK|17,981
-Izrael|nový šekel|1|ILS|6,993
-Japonsko|jen|100|JPY|18,057
-Dánsko|koruna|1|DKK|3,316
-EMU|euro|1|EUR|24,670
-)";
-    });
-
+        Logger::init(std::filesystem::path{"."}/"build"/"Test"/"log.txt");
     }
     ~TestFixture(){
         std::remove("./build/Test/testMoneycash.json");
+        std::remove("./build/Test/log.txt");
     }
 };
 
@@ -173,7 +169,7 @@ BOOST_FIXTURE_TEST_CASE( test_Contains, TestFixture )
     BOOST_CHECK_EQUAL(contents.size(),5);
     BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-1")),true);
     BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-4")),true);
-    BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-5")),false);
+    BOOST_CHECK_EQUAL(moneyCash_mock.containsDate(boost::gregorian::from_simple_string("2022-5-5")),true);
 }
 
 BOOST_FIXTURE_TEST_CASE( test_Get_Course_Till_Today, TestFixture )
