@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
                 return EXIT_FAILURE;
             }
         }
+        Logger::init(cash / "log.txt");
         
         std::unique_ptr<STIN_Bot::Resources> htmlRes = std::make_unique<STIN_Bot::Resources>( 
             std::vector<STIN_Bot::ResourceData>{ 
@@ -84,7 +85,7 @@ int main(int argc, char* argv[])
     }
     catch (std::exception const& e)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        Logger::error("Error: ",e.what());
         return EXIT_FAILURE;
     }
 }

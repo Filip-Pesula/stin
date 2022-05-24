@@ -4,13 +4,18 @@
 #include <Logger.h>
 #include <codecvt>
 #include <locale>
+#include <fstream>
 
 struct TestFixture{
     std::ostringstream oss;
     std::streambuf* p_cout_streambuf;
     TestFixture(){
+        Logger::init(std::filesystem::path{"."}/"build"/"Test"/"log.txt");
         p_cout_streambuf = std::cout.rdbuf();
         std::cout.rdbuf(oss.rdbuf());
+    }
+    ~TestFixture(){
+        std::remove("./build/Test/log.txt");
     }
 };
 
@@ -57,4 +62,18 @@ BOOST_FIXTURE_TEST_CASE(test_Log_u32strig_view_t,TestFixture){
     std::cout.rdbuf(p_cout_streambuf); // restore
 
     BOOST_CHECK_EQUAL(oss.str() , utfConverter.to_bytes(str+U"\n") );
+}
+
+BOOST_FIXTURE_TEST_CASE(test_Log_to_file,TestFixture){
+    
+    Logger::error("error","message");
+    
+    std::fstream logf("./build/Test/log.txt");
+    BOOST_REQUIRE(logf.is_open());
+    std::string fline{};
+    logf >> fline;
+    BOOST_CHECK_EQUAL(fline , "error" );
+    logf >> fline;
+    BOOST_CHECK_EQUAL(fline , "message" );
+    
 }
